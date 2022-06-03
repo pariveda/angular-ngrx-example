@@ -1,5 +1,7 @@
 <h1>Todo List</h1>
 
+<todo-count></todo-count>
+
 <div *ngFor="let todo of (list$ | async)">
     <span>{{todo.label}}</span>
     &nbsp;

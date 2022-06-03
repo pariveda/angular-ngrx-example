@@ -5,9 +5,10 @@ import { SharedModule } from '../shared/shared.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TodoDomainHandler } from './todo.domain';
 import { DomainHandler } from '../shared/domain.service';
+import { TodoCountComponent } from './todo-count.component';
 
 @NgModule({
-  declarations: [TodoComponent],
+  declarations: [TodoComponent, TodoCountComponent],
   exports: [TodoComponent],
   providers: [
     {
