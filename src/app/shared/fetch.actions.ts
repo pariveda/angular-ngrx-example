@@ -2,20 +2,20 @@ import { createAction, props } from '@ngrx/store';
 
 export const initialize = createAction(
   '[Fetch] initialized',
-  props<{ id: string }>()
+  props<{ collection: string, id: string; }>()
 );
 
 export const started = createAction(
   '[Fetch] started',
-  props<{ id: string; date: Date }>()
+  props<{ collection: string, id: string; date: Date }>()
 );
 
 export const succeeded = createAction(
   '[Fetch] succeeded',
-  props<{ id: string; date: Date; result: any }>()
+  props<{ collection: string; id: string; date: Date; result: any }>()
 );
 
 export const failed = createAction(
   '[Fetch] failed',
-  props<{ id: string; date: Date; error: any }>()
+  props<{ collection: string; id: string; date: Date; error: any }>()
 );

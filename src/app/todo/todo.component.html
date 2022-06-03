@@ -1,16 +1,19 @@
 <h1>Todo List</h1>
 
-<div *ngFor="let todo of (todoService.list$ | async)">
+<div *ngFor="let todo of (list$ | async)">
     <span>{{todo.label}}</span>
+    &nbsp;
     <button (click)="onDelete(todo)">x</button>
 </div>
 
+<br />
+
 <form [formGroup]="todoForm" (ngSubmit)="onSubmit()">
     <input id="label" type="text" formControlName="label">
-    <button class="button" type="submit" [disabled]="todoService.loading$ | async">Add</button>
+    <button class="button" type="submit" [disabled]="loading$ | async">Add</button>
 </form>
 
 
-<div *ngIf="todoService.loading$ | async">
+<div *ngIf="loading$ | async">
     is loading.
 </div>

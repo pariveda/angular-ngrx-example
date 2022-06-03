@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
-import { TodoService } from '../todo.service';
+import { Store } from '@ngrx/store';
+import { onCreate, onDelete, onInitialize } from '../shared/domain.actions';
+import { createCollectionSelector } from '../shared/domain.feature';
+import { createFetchSelector } from '../shared/fetch.feature';
 import { Todo } from './todo.model';
 
 @Component({
@@ -9,7 +12,10 @@ import { Todo } from './todo.model';
   styleUrls: ['./todo.component.css'],
 })
 export class TodoComponent implements OnInit {
-  constructor(public todoService: TodoService, private formBuilder: FormBuilder) {}
+  constructor(private formBuilder: FormBuilder, private store: Store) {}
+
+  loading$ = this.store.select(createFetchSelector('TODOS'))
+  list$ = this.store.select(createCollectionSelector('TODOS'))
 
   todoForm = this.formBuilder.group({
     label: ''
@@ -17,17 +23,33 @@ export class TodoComponent implements OnInit {
 
   async onSubmit(): Promise<void> {
     const label = this.todoForm.value.label
-    await this.todoService.addTodo(label);
+    this.store.dispatch(onCreate({
+      collection: 'TODOS',
+      item: {
+        id: '',
+        value: {
+          label
+        }
+      }
+    }))
     this.todoForm.patchValue({
       label: ''
     })
   }
 
   async onDelete(todo: Todo): Promise<void> {
-    await this.todoService.deleteTodo(todo.id)
+    this.store.dispatch(onDelete({
+      collection: 'TODOS',
+      item: {
+        id: todo.id,
+        value: todo
+      }
+    }))
   }
 
   ngOnInit(): void {
-    this.todoService.initializeTodos();
+    this.store.dispatch(onInitialize({
+      collection: 'TODOS',
+    }))
   }
 }
